@@ -79,5 +79,7 @@ async def answer_growth_bim(message: types.Message, state: FSMContext):
 @dp.message_handler(Text(equals='Отмена рассчёта ИМТ'))
 async def cancel_bim_calculation(msg: types.Message, state: FSMContext):
     logging.info(f'bim_cancellation: user = {msg.from_user.id}');
-    await msg.answer('Отмена рассчёта ИМТ');
-    await CalcBIM.finish();
+    kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+    kb.add('Вернуться в меню');
+    await msg.answer('Отмена рассчёта ИМТ', reply_markup=kb);
+    await state.finish();

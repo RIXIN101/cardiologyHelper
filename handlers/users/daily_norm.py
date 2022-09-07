@@ -39,10 +39,10 @@ async def calculate_daly_norm_test(message: types.Message):
 @dp.message_handler(state=CalcDailyNormTest.SEX)
 async def answer_sex(message: types.Message, state: FSMContext):
     answer = message.text;
-    if answer == 'Отмена расчета суточной нормы калорий':
+    if answer == 'Отмена расчета':
         kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
         kb_back.add('Вернуться в меню');
-        await message.answer('Отмена расчета суточной нормы калорий', reply_markup=kb_back);
+        await message.answer('Отмена расчета', reply_markup=kb_back);
         await state.finish();
     elif not correct_sex(answer):
         logging.info(f'daily_norm_incorrect: user = {message.from_user.id}, answer = {message.text}');
@@ -60,11 +60,11 @@ async def answer_sex(message: types.Message, state: FSMContext):
 async def answer_age(message: types.Message, state: FSMContext):
     answer = message.text
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
-    kb.add('Отмена расчета суточной нормы калорий')
-    if answer == 'Отмена расчета суточной нормы калорий':
+    kb.add('Отмена расчета')
+    if answer == 'Отмена расчета':
         kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
         kb_back.add('Вернуться в меню');
-        await message.answer('Отмена расчета суточной нормы калорий', reply_markup=kb_back);
+        await message.answer('Отмена расчета', reply_markup=kb_back);
         await state.finish();
     elif not correct_age(answer):
         logging.info(f'daily_norm_incorrect: user = {message.from_user.id}, answer = {message.text}');
@@ -81,10 +81,10 @@ async def answer_age(message: types.Message, state: FSMContext):
 @dp.message_handler(state=CalcDailyNormTest.BODY_MASS)
 async def answer_body_mass(message: types.Message, state: FSMContext):
     answer = message.text
-    if answer == 'Отмена расчета суточной нормы калорий':
+    if answer == 'Отмена расчета':
         kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
         kb_back.add('Вернуться в меню');
-        await message.answer('Отмена расчета суточной нормы калорий', reply_markup=kb_back);
+        await message.answer('Отмена расчета', reply_markup=kb_back);
         await state.finish();
     elif (not is_float(answer)) or (float(answer) < 10):
         logging.info(f'daily_norm_incorrect: user = {message.from_user.id}, answer = {message.text}');
@@ -102,11 +102,11 @@ async def answer_active(message: types.Message, state: FSMContext):
 
     answer = message.text
     kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
-    kb.add('Отмена расчета суточной нормы калорий')
-    if answer == 'Отмена расчета суточной нормы калорий':
+    kb.add('Отмена расчета')
+    if answer == 'Отмена расчета':
         kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
         kb_back.add('Вернуться в меню');
-        await message.answer('Отмена расчета суточной нормы калорий', reply_markup=kb_back);
+        await message.answer('Отмена расчета', reply_markup=kb_back);
         await state.finish();
     elif not correct_kfa(answer):
         logging.info(f'daily_norm_incorrect: user = {message.from_user.id}, answer = {message.text}');

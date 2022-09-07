@@ -3,7 +3,7 @@ import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-
+from aiogram.types import ReplyKeyboardMarkup;
 from handlers.services import (
     correct_sex, convert_sex, correct_arterial_pressure,
     correct_age_cardiovascular, correct_is_smoking,
@@ -33,79 +33,108 @@ async def calculate_cardiovascular_test(message: types.Message):
 @dp.message_handler(state=CalcCardiovascularRisk.SEX)
 async def answer_sex_cardiovascular(message: types.Message, state: FSMContext):
     answer = message.text
-    if not correct_sex(answer):
+    if answer == 'Отмена расчета':
+        kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+        kb_back.add('Вернуться в меню');
+        await message.answer('Отмена расчета', reply_markup=kb_back);
+        await state.finish();
+    elif not correct_sex(answer):
         await message.answer("Пожалуйста, выберите пол, используя клавиатуру ниже!")
         return
-
-    logging.info(f'answer_sex: sex={answer}')
-    answer = convert_sex(answer)
-    await state.update_data(sex=answer)
-    await message.answer('Ваш возраст?', reply_markup=menu.age_cardiovascular)
-    await CalcCardiovascularRisk.next()
+    else:
+        logging.info(f'answer_sex: sex={answer}')
+        answer = convert_sex(answer)
+        await state.update_data(sex=answer)
+        await message.answer('Ваш возраст?', reply_markup=menu.age_cardiovascular)
+        await CalcCardiovascularRisk.next()
 
 
 @dp.message_handler(state=CalcCardiovascularRisk.AGE)
 async def answer_age_cardiovascular(message: types.Message, state: FSMContext):
     answer = message.text
-    if not correct_age_cardiovascular(answer):
+    if answer == 'Отмена расчета':
+        kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+        kb_back.add('Вернуться в меню');
+        await message.answer('Отмена расчета', reply_markup=kb_back);
+        await state.finish();
+    elif not correct_age_cardiovascular(answer):
         await message.answer("Пожалуйста, выберите возраст, используя клавиатуру ниже!")
         return
-    logging.info(f'answer_age_cardiovascular: age={answer}')
+    else:
+        logging.info(f'answer_age_cardiovascular: age={answer}')
 
-    answer = convert_age_cardiovascular(answer)
-    await state.update_data(age=answer)
-    await message.answer('Вы курите?', reply_markup=menu.smoking_menu)
-    await CalcCardiovascularRisk.next()
+        answer = convert_age_cardiovascular(answer)
+        await state.update_data(age=answer)
+        await message.answer('Вы курите?', reply_markup=menu.smoking_menu)
+        await CalcCardiovascularRisk.next()
 
 
 @dp.message_handler(state=CalcCardiovascularRisk.IS_SMOKING)
 async def answer_smoking(message: types.Message, state: FSMContext):
     answer = message.text
-    if not correct_is_smoking(answer):
+    if answer == 'Отмена расчета':
+        kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+        kb_back.add('Вернуться в меню');
+        await message.answer('Отмена расчета', reply_markup=kb_back);
+        await state.finish();
+    elif not correct_is_smoking(answer):
         logging.info(f'cardiovascular_incorrect: user = {message.from_user.id}, answer = {message.text}');
         await message.answer("Не корректный ответ!")
         return
-    logging.info(f'answer_age_cardiovascular: age={answer}')
+    else:
+        logging.info(f'answer_age_cardiovascular: age={answer}')
 
-    answer = convert_is_smoking(answer)
-    await state.update_data(is_smoking=answer)
-    await message.answer('Ваше систолическое (верхнее) артериальное давление?',
-                         reply_markup=menu.menu_arterial_pressure)
-    await CalcCardiovascularRisk.next()
+        answer = convert_is_smoking(answer)
+        await state.update_data(is_smoking=answer)
+        await message.answer('Ваше систолическое (верхнее) артериальное давление?',
+                            reply_markup=menu.menu_arterial_pressure)
+        await CalcCardiovascularRisk.next()
 
 
 @dp.message_handler(state=CalcCardiovascularRisk.ARTERIAL_PRESSURE)
 async def answer_arterial_pressure(message: types.Message, state: FSMContext):
     answer = message.text
-    if not correct_arterial_pressure(answer):
+    if answer == 'Отмена расчета':
+        kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+        kb_back.add('Вернуться в меню');
+        await message.answer('Отмена расчета', reply_markup=kb_back);
+        await state.finish();
+    elif not correct_arterial_pressure(answer):
         logging.info(f'cardiovascular_incorrect: user = {message.from_user.id}, answer = {message.text}');
         await message.answer("Не корректный ответ!")
         return
-    logging.info(f'answer_age_cardiovascular: age={answer}')
+    else:
+        logging.info(f'answer_age_cardiovascular: age={answer}')
 
-    answer = convert_arterial_pressure(answer)
-    await state.update_data(arterial_pressure=answer)
-    await message.answer('Ваш уровень общего холестерина?', reply_markup=menu.cholesterol_menu)
-    await CalcCardiovascularRisk.next()
+        answer = convert_arterial_pressure(answer)
+        await state.update_data(arterial_pressure=answer)
+        await message.answer('Ваш уровень общего холестерина?', reply_markup=menu.cholesterol_menu)
+        await CalcCardiovascularRisk.next()
 
 
 @dp.message_handler(state=CalcCardiovascularRisk.CHOLESTEROL)
 async def answer_cholesterol(message: types.Message, state: FSMContext):
     answer = message.text
-    if not correct_cholesterol(answer):
+    if answer == 'Отмена расчета':
+        kb_back = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True);
+        kb_back.add('Вернуться в меню');
+        await message.answer('Отмена расчета', reply_markup=kb_back);
+        await state.finish();
+    elif not correct_cholesterol(answer):
         logging.info(f'cardiovascular_incorrect: user = {message.from_user.id}, answer = {message.text}');
         await message.answer("Не корректный ответ!")
         return
-    logging.info(f'answer_age_cardiovascular: age={answer}')
+    else:
+        logging.info(f'answer_age_cardiovascular: age={answer}')
 
-    answer = convert_cholesterol(answer)
-    await state.update_data(cholesterol=answer)
+        answer = convert_cholesterol(answer)
+        await state.update_data(cholesterol=answer)
 
-    answers = await state.get_data()
-    result = calc_cardiovascular(**answers)
-    logging.info(f'result: {result}')
-    await message.answer(f'Результат: {result}%\n\n{TEXT["cardiovascular_result"]}', reply_markup=menu.main_menu)
-    await CalcCardiovascularRisk.next()
+        answers = await state.get_data()
+        result = calc_cardiovascular(**answers)
+        logging.info(f'result: {result}')
+        await message.answer(f'Результат: {result}%\n\n{TEXT["cardiovascular_result"]}', reply_markup=menu.main_menu)
+        await CalcCardiovascularRisk.next()
 
 
 
