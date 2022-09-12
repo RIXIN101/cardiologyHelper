@@ -177,7 +177,7 @@ def convert_cholesterol(message: str) -> int:
 
 
 def convert_age_cardiovascular(message: str) -> int:
-    age_list = [40, 45, 55, 60]
+    age_list = [40, 45, 55, 60, 65]
     index = message_text.MENU_AGE_CARDIOVASCULAR.index(message)
     return age_list[index]
 
