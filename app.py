@@ -86,8 +86,8 @@ async def on_shutdown(dp):
 if __name__ == '__main__':
     from aiogram import executor
     from handlers import dp
-    schedule.every().day.at('22:00').do(push_notification_morning);
-    schedule.every().day.at('22:01').do(push_notification_evening);
+    schedule.every().day.at('09:00').do(push_notification_morning);
+    schedule.every().day.at('18:00').do(push_notification_evening);
     Thread(target=schedule_checker).start();
     logging.basicConfig(level=logging.INFO)
     executor.start_polling(dp, on_shutdown=on_shutdown)
