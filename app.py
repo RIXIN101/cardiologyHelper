@@ -29,7 +29,7 @@ morning4 = 'https://sun9-east.userapi.com/sun9-24/s/v1/ig2/8Z36B3ZtG4YbayAXy-Ur0
 morning5 = 'https://sun9-east.userapi.com/sun9-36/s/v1/ig2/qj6_dC90eGoSzEb4OPpEq50kU_eEPOhtLwYpTFK8RfjrEgVzvBPAbt_FzS-0ytt4_rEsIZ8H5SZvB4zh8zYYmvKC.jpg?size=2160x2160&quality=96&type=album'
 morning6 = 'https://sun9-north.userapi.com/sun9-88/s/v1/ig2/gw4IulXWhSp43XBuafDb67aiRCtW3jG2yy1OZ5CcOHz0PM5sLdpgQJ2-pfnHHjR6LRK8yA-sV95Ncglm_gDZhDjR.jpg?size=2219x2160&quality=96&type=album'
 morning7 = 'https://sun3.userapi.com/sun3-12/s/v1/ig2/mOGimbl-ryZPqcFTMwCY9mhEvLgCjc6WkKM1D3zxqpd7Ycw0u70UdOFp_g1RIDxFAMux6P2VKMKtDNW_9DzPQShx.jpg?size=2160x2160&quality=96&type=album'
-PHOTOS_URLS_MORNING = [morning1, morning2, morning3, morning4, morning5, morning6, morning7]
+PHOTOS_URLS_MORNING = [morning1, morning2, morning3, morning4, morning5, morning7]
 PHOTOS_URLS_EVENING = [evening1, evening2, evening3, evening4, evening6, evening7]
 #* Рекомендации на утро для пользователя с определенной группой (input int, return str)
 def group_recomendations_morning(group):
@@ -40,9 +40,9 @@ def group_recomendations_morning(group):
 #* Рекомендации на вечер для пользователя с определенной группой (input int, return str)
 def group_recomendations_evening(group):
     if group == 1:
-        return PHOTOS_URLS_EVENING[randint(0, 6)];
+        return PHOTOS_URLS_EVENING[randint(0, 5)];
     elif group == 2:
-        return PHOTOS_URLS_EVENING[randint(0, 6)];
+        return PHOTOS_URLS_EVENING[randint(0, 5)];
 #* Отправляет сообщение определнной рекомендации из функций выше (input [int, str], return [Object|str])
 def send_message(id, photo):
     data = {
@@ -86,8 +86,8 @@ async def on_shutdown(dp):
 if __name__ == '__main__':
     from aiogram import executor
     from handlers import dp
-    schedule.every().day.at('09:00').do(push_notification_morning);
-    schedule.every().day.at('18:00').do(push_notification_evening);
+    schedule.every().day.at('22:00').do(push_notification_morning);
+    schedule.every().day.at('22:01').do(push_notification_evening);
     Thread(target=schedule_checker).start();
     logging.basicConfig(level=logging.INFO)
     executor.start_polling(dp, on_shutdown=on_shutdown)
